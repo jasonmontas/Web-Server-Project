@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>First Bulma Example</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <style>
       @media screen and (max-width: 1023px) {
         .navbar-dropdown {
@@ -48,6 +48,23 @@
       .column {
         flex-shrink: 0;
       }
+      .navbar-link::after {
+        border-color: white !important;
+      }
+      .navbar-dropdown .navbar-item {
+        color: black !important;
+      }
+      .navbar-item.has-background-primary {
+        color: white !important;
+      }
+      .tabs + .box {
+        margin-top: -40px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+      .navbar-link {
+        color: white !important;
+      }
     </style>
   </head>
   <body>
@@ -72,7 +89,7 @@
               <div class="navbar-start">
                 <a class="navbar-item" href="https://bulma.io/">Home</a>
                 <div class="navbar-item has-dropdown is-hoverable">
-                  <a class="navbar-link" href="#">Docs</a>
+                  <a class="navbar-link" href="#" is-wh>Docs</a>
                   <div class="navbar-dropdown">
                     <a class="navbar-item" href="https://bulma.io/documentation/start/overview/">Overview</a>
                     <a class="navbar-item" href="https://bulma.io/documentation/overview/modifiers/">Modifiers</a>
@@ -140,6 +157,76 @@
           </div>
         </div>
           <div class="column is-6">
+            <div class="tabs is-boxed">
+              <ul>
+                <li class="is-active">
+                  <a>
+                    <span class="icon is-small"><i class="fas fa-clipboard-list" aria-hidden="true"></i></span>
+                    <span>Current</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="icon is-small"><i class="fas fa-calendar-times" aria-hidden="true"></i></span>
+                    <span>Completed</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="icon is-small"><i class="fas fa-calendar-day" aria-hidden="true"></i></span>
+                    <span>Upcoming</span>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <span class="icon is-small"><i class="fas fa-calendar" aria-hidden="true"></i></span>
+                    <span>All</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="box">
+              <div class="field has-icons-left">
+                <div class="control has-icons-left">
+                  <input class="input is-primary" type="text" placeholder="New Task">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-calendar-plus"></i>
+                  </span>
+                </div>
+              </div>
+              <hr class="dropdown-divider" />
+              <div class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox" checked> Make Bulma great again
+                  </label>
+                </div>
+                <hr class="dropdown-divider" />
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox"> Add some more features
+                  </label>
+                </div>
+                <hr class="dropdown-divider" />
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox"> Make a github account
+                  </label>
+                </div>
+                <hr class="dropdown-divider" />
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox"> Learn how to use github
+                  </label>
+                </div>
+                <hr class="dropdown-divider" />
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox"> add a .gitignore file
+                  </label>
+                </div>
+              </div>
+            </div>
             <article class="message is-primary">
               <div class="message-header">
                   Make a github account
@@ -149,12 +236,14 @@
                 Go to github.com and create an account.
                 <br>
                 That's where you'll be able to share your work with the world.. thats where we will be putting all of our code for this class.
-                 <progress class="progress is-primary" value="60" max="100">
+
+                 <progress class="progress is-success" value="60" max="100">
                     60%
                  </progress>
               </div>
               
             </article>
+            <div class="box">
             <div class="field">
               <label class="label">Name</label>
               <div class="control">
@@ -240,6 +329,7 @@
               </div>
             </div>
           </div>
+        </div>
           <div class="column is-3">
             <aside class="menu">
               <h1 class="title is-3">Table of contents</h1>

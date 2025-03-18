@@ -1,29 +1,64 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { getOne } from '@/models/users'
+import { useRoute } from 'vue-router'
 
-const notifications = ref([
-  { text: 'This is a primary notification #1', type: 'success' },
-  { text: 'This is a primary notification #2', type: 'warning' },
-  { text: 'This is a primary notification #3', type: 'danger' },
-  { text: 'This is a primary notification #4', type: 'info' },
-])
+
+const route = useRoute('/users/[id]')
+const user = getOne(route.params.id)
+
+const boxContent = ref(
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.',
+)
 
 function removeNotification(index: number) {
   notifications.value.splice(index, 1)
 }
+
+function deleteBox() {
+  boxContent.value = ''
+}
 </script>
 
 <template>
-  <div>
-    <div
-      v-for="(message, index) in notifications"
-      :key="index"
-      class="notification is-light"
-      :class="`is-${message.type}`"
-    >
-      <button class="delete" @click="removeNotification(index)"></button>
-      {{ message.text }}
-    </div>
+  <div class="box" v-if="boxContent">
+    <article class="media">
+      <div class="media-left">
+        <figure class="image is-64x64">
+          <img src="https://bulma.io/assets/images/placeholders/128x128.png" alt="Image" />
+        </figure>
+      </div>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong>John Smith</strong> <small>@johnsmith</small>
+            <small>31m</small>
+            <br />
+            {{ boxContent }}
+          </p>
+        </div>
+        <nav class="level is-mobile">
+          <div class="level-left">
+            <a class="level-item" aria-label="reply">
+              <span class="icon is-small">
+                <i class="fas fa-reply" aria-hidden="true"></i>
+              </span>
+            </a>
+            <a class="level-item" aria-label="retweet">
+              <span class="icon is-small">
+                <i class="fas fa-retweet" aria-hidden="true"></i>
+              </span>
+            </a>
+            <a class="level-item" aria-label="like">
+              <span class="icon is-small">
+                <i class="fas fa-heart" aria-hidden="true"></i>
+              </span>
+            </a>
+          </div>
+        </nav>
+      </div>
+      <button class="delete" @click="deleteBox"></button>
+    </article>
   </div>
 </template>
 

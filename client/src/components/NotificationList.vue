@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { getOne } from '@/models/users'
 import { useRoute } from 'vue-router'
 
 
 const route = useRoute('/users/[id]')
-const user = getOne(route.params.id)
 
 const boxContent = ref(
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.',
 )
 
-function removeNotification(index: number) {
-  notifications.value.splice(index, 1)
-}
 
 function deleteBox() {
   boxContent.value = ''

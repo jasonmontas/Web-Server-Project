@@ -1,27 +1,45 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import NotificationList from '@/components/NotificationList.vue'
 
-// Functions to open and close a modal
-function openModal($el) {
-  $el.classList.add('is-active')
+// State for dropdown functionality
+const isDropdownActive = ref(false)
+const selectedType = ref('Select Type')
+
+// Functions to handle dropdown
+function toggleDropdown() {
+  isDropdownActive.value = !isDropdownActive.value
 }
 
-function closeModal($el) {
-  $el.classList.remove('is-active')
+function selectType(type: string) {
+  selectedType.value = type
+  isDropdownActive.value = false
+}
+
+// Functions to open and close a modal
+function openModal($el: HTMLElement | null) {
+  if ($el) {
+    $el.classList.add('is-active')
+  }
+}
+
+function closeModal($el: HTMLElement | null) {
+  if ($el) {
+    $el.classList.remove('is-active')
+  }
 }
 
 function closeAllModals() {
   ;(document.querySelectorAll('.modal') || []).forEach(($modal) => {
-    closeModal($modal)
+    closeModal($modal as HTMLElement)
   })
 }
 
 onMounted(() => {
   // Add a click event on buttons to open a specific modal
   ;(document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-    const modal = $trigger.dataset.target
-    const $target = document.getElementById(modal)
+    const modal = ($trigger as HTMLElement).dataset.target
+    const $target = document.getElementById(modal || '')
 
     $trigger.addEventListener('click', () => {
       openModal($target)
@@ -34,10 +52,10 @@ onMounted(() => {
       '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button',
     ) || []
   ).forEach(($close) => {
-    const $target = $close.closest('.modal')
+    const $target = ($close as HTMLElement).closest('.modal')
 
     $close.addEventListener('click', () => {
-      closeModal($target)
+      closeModal($target as HTMLElement)
     })
   })
 
@@ -105,9 +123,10 @@ onMounted(() => {
 
         <div class="field">
           <label class="label">Type</label>
-          <div class="dropdown is-hoverable">
+          <div :class="['dropdown', { 'is-active': isDropdownActive }]">
             <div class="dropdown-trigger">
-              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4" @click="toggleDropdown">
+                <span>{{ selectedType }}</span>
                 <span class="icon is-small">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -115,11 +134,11 @@ onMounted(() => {
             </div>
             <div class="dropdown-menu" id="dropdown-menu4" role="menu">
               <div class="dropdown-content">
-                <a href="#" class="dropdown-item"> Run </a>
-                <a href="#" class="dropdown-item"> Bike </a>
-                <a href="#" class="dropdown-item"> Walk </a>
-                <a href="#" class="dropdown-item"> Cardio </a>
-                <a href="#" class="dropdown-item"> Strength </a>
+                <a href="#" class="dropdown-item" @click.prevent="selectType('Run')">Run</a>
+                <a href="#" class="dropdown-item" @click.prevent="selectType('Bike')">Bike</a>
+                <a href="#" class="dropdown-item" @click.prevent="selectType('Walk')">Walk</a>
+                <a href="#" class="dropdown-item" @click.prevent="selectType('Cardio')">Cardio</a>
+                <a href="#" class="dropdown-item" @click.prevent="selectType('Strength')">Strength</a>
               </div>
             </div>
           </div>
@@ -127,10 +146,10 @@ onMounted(() => {
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link">Submit</button>
+            <button class="button is-link" @click="closeAllModals">Submit</button>
           </div>
           <div class="control">
-            <button class="button is-link is-light">Cancel</button>
+            <button class="button is-link is-light" @click="closeAllModals">Cancel</button>
           </div>
         </div>
       </div>
